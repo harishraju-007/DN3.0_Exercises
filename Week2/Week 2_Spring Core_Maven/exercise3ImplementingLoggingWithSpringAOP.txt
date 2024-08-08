@@ -1,0 +1,47 @@
+### Exercise 3: Implementing Logging with Spring AOP
+
+#### Scenario:
+The library management application requires logging capabilities to track method execution times.
+
+#### Steps:
+
+1. **Add Spring AOP Dependency:**
+    - Update `pom.xml` to include Spring AOP dependency.
+    
+    ```xml
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-aop</artifactId>
+        <version>5.3.20</version>
+    </dependency>
+    ```
+
+2. **Create an Aspect for Logging:**
+    - Create a package `com.library.aspect` and add a class `LoggingAspect` with a method to log execution times.
+    
+    ```java
+    package com.library.aspect;
+
+    import org.aspectj.lang.annotation.Aspect;
+    import org.aspectj.lang.annotation.Before;
+
+    @Aspect
+    public class LoggingAspect {
+
+        @Before("execution(* com.library.service.*.*(..))")
+        public void logBefore() {
+            System.out.println("Method execution started");
+        }
+    }
+    ```
+
+3. **Enable AspectJ Support:**
+    - Update `applicationContext.xml` to enable AspectJ support and register the aspect.
+    
+    ```xml
+    <bean id="loggingAspect" class="com.library.aspect.LoggingAspect"/>
+    <aop:aspectj-autoproxy/>
+    ```
+
+4. **Test the Aspect:**
+    - Run the `LibraryManagementApplication` main class and observe the console for log messages indicating method execution times.
